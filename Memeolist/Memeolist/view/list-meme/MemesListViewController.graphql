@@ -1,0 +1,26 @@
+query AllMemes {
+    memes: allMemes(orderBy: id_DESC) {
+        ...MemeDetails
+    }
+}
+
+fragment MemeDetails on Meme {
+    id
+    photoUrl
+    votes
+}
+
+
+subscription createMeme {
+  Meme(
+    filter: {
+      mutation_in: [CREATED]
+    }
+  ) {
+    mutation
+    node {
+      id
+      photoUrl
+    }
+  }
+}
