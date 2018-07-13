@@ -16,10 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let user = try! AgsAuth.instance.currentUser() {
             print(user);
         } else {
-            let rootViewController = LoginViewController()
-            window?.rootViewController = UINavigationController(rootViewController: rootViewController)
-            window?.makeKeyAndVisible()
-            return true;
+            // FIXME disabled login screen for the demo purpose. 
+            // Going to be enabled again
+            // let rootViewController = LoginViewController()
+            // window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+            // window?.makeKeyAndVisible()
+            // return true;
         }
         return true
     }
