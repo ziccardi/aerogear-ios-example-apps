@@ -1,4 +1,4 @@
-# AeroGear IOS example apps
+# AeroGear IOS (SWIFT) example apps
 
 [![License](https://img.shields.io/badge/-Apache%202.0-blue.svg)](https://opensource.org/s/Apache-2.0)
 
@@ -16,7 +16,7 @@ The applications contains an interactive version of the code samples found in th
 
 | App                                      | Auth               | Security           | Push                | Sync               |
 |------------------------------------------|:------------------:|:------------------:|:-------------------:|:------------------:|
-| [memeolist](MemeoList)                   | :heavy_minus_sign: | :heavy_minus_sign: | :heavy_minus_sign: |  :heavy_check_mark: |
+| [memeolist](./Memeolist)                   | :heavy_minus_sign: | :heavy_minus_sign: | :heavy_minus_sign: |  :heavy_check_mark: |
 
 ## License 
 
