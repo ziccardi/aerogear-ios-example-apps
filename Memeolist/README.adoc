@@ -2,11 +2,13 @@
 
 Memeolist GraphQL example application.
 
-Features:
+== Features:
 
 * List memes
 * Create new meme
 * Login or Register (Using Auth SDK)
+
+== Screenshot:
 
 image::./images/main.png[]
 
