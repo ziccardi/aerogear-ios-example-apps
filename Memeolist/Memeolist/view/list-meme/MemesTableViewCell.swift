@@ -13,7 +13,7 @@ class MemesTableViewCell: UITableViewCell {
         memeId = meme.id
         let url = URL(string: meme.photoUrl)
         memeImageView.kf.setImage(with: url, placeholder: UIImage(named: "loading"))
-        likesLabel?.text = "\(meme.votes ?? 0) likes"
+        likesLabel?.text = "0 likes" //"\(meme.votes ?? 0) likes"
         self.selectionStyle = UITableViewCellSelectionStyle.none
     }
 

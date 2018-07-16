@@ -1,14 +1,7 @@
 ## Creating meme
-mutation CreateMeme($title: String!, $photoUrl: String!) {
-    createMeme(title: $title, photoUrl: $photoUrl) {
-    ...MemeDetails
-    }
-}
-
-mutation newMeme($url: String!, $votes: Int) {
-  createMeme(photoUrl: $url, votes: $votes) {
+mutation newMeme($url: String!) {
+  createMeme(photoUrl: $url) {
     id
     photoUrl
   }
 }
-
