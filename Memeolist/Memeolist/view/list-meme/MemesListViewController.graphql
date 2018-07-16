@@ -1,5 +1,5 @@
 query AllMemes {
-    memes: allMemes(orderBy: id_DESC) {
+    memes: allMemes {
         ...MemeDetails
     }
 }
@@ -7,7 +7,6 @@ query AllMemes {
 fragment MemeDetails on Meme {
     id
     photoUrl
-    votes
 }
 
 
