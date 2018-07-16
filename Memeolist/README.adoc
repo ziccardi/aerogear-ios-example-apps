@@ -1,6 +1,19 @@
 = Memeolist Swift
 
-Memeolist Graphql example application
+Memeolist GraphQL example application.
+
+Features:
+
+* List memes
+* Create new meme
+* Login or Register (Using Auth SDK)
 
 image::./images/main.png[]
 
+== Running
+
+[source, bash]
+----
+pod install
+open Memeolist.xcworkspace
+----
