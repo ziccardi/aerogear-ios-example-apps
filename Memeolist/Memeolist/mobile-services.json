@@ -16,6 +16,13 @@
              "ssl-required": "external",
              "public-client": true
          }
-    }
-    ]
+    },    
+    {
+        "id": "sync",
+        "name": "sync",
+        "type": "sync",
+        "url": "https://api.graph.cool/simple/v1/cjiyvc1wa40kg011846ev0ff8",
+        "config": {
+        }
+    }]
 }

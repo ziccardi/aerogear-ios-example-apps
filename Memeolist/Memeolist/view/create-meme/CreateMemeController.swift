@@ -1,5 +1,6 @@
 import UIImageCropper
 import UIKit
+import AGSSync
 
 class CreateMemeController: UIViewController,
     UINavigationControllerDelegate,
@@ -51,7 +52,7 @@ class CreateMemeController: UIViewController,
                                                      top: self.topTextEdit.text ?? "",
                                                      bottom: self.bottomTextEdit.text ?? "")
 
-        SyncService.instance.client.perform(mutation: NewMemeMutation(url: url)) { result, error in
+        AgsSync.instance.client?.perform(mutation: NewMemeMutation(url: url)) { result, error in
             indicator.stopAnimating()
             if result != nil {
                 let alert = UIAlertController(title: "Success", message: "Meme created", preferredStyle: UIAlertControllerStyle.alert)
