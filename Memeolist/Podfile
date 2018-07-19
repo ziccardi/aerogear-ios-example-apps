@@ -9,8 +9,10 @@ target 'Memeolist' do
   pod "Apollo"
   pod "Kingfisher"
   pod "Alamofire"
-  ## SDK pods
-  pod 'AGSAuth', '1.0.0'
+  
+  ## SDK pods from development
+  pod 'AGSAuth', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
+  pod 'AGSSync', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
 
   ## Helpers
   pod 'UIImageCropper'

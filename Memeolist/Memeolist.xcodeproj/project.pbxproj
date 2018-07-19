@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0110647620EE58FE00547C63 /* MemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110647520EE58FE00547C63 /* MemeService.swift */; };
-		0110647A20EE593C00547C63 /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110647920EE593C00547C63 /* SyncService.swift */; };
 		0195B0E920F4E040000740E4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0195B0E720F4E040000740E4 /* LoginViewController.swift */; };
 		0195B0EA20F4E040000740E4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0195B0E820F4E040000740E4 /* LoginViewController.xib */; };
 		0195B0EC20F513D9000740E4 /* mobile-services.json in Resources */ = {isa = PBXBuildFile; fileRef = 0195B0EB20F513D9000740E4 /* mobile-services.json */; };
@@ -40,7 +39,6 @@
 
 /* Begin PBXFileReference section */
 		0110647520EE58FE00547C63 /* MemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeService.swift; sourceTree = "<group>"; };
-		0110647920EE593C00547C63 /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
 		0195B0E720F4E040000740E4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = Memeolist/view/login/LoginViewController.swift; sourceTree = SOURCE_ROOT; };
 		0195B0E820F4E040000740E4 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LoginViewController.xib; path = Memeolist/view/login/LoginViewController.xib; sourceTree = SOURCE_ROOT; };
 		0195B0EB20F513D9000740E4 /* mobile-services.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mobile-services.json"; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 			isa = PBXGroup;
 			children = (
 				0110647520EE58FE00547C63 /* MemeService.swift */,
-				0110647920EE593C00547C63 /* SyncService.swift */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -366,6 +363,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Memeolist/Pods-Memeolist-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AGSAuth/AGSAuth.framework",
 				"${BUILT_PRODUCTS_DIR}/AGSCore/AGSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AGSSync/AGSSync.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
 				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
@@ -381,6 +379,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AGSAuth.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AGSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AGSSync.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apollo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
@@ -406,7 +405,6 @@
 			files = (
 				01CF3BAA20EBA7C20026EC7F /* CreateMemeController.swift in Sources */,
 				01CF3BA620EBA7C20026EC7F /* AppDelegate.swift in Sources */,
-				0110647A20EE593C00547C63 /* SyncService.swift in Sources */,
 				0110647620EE58FE00547C63 /* MemeService.swift in Sources */,
 				0195B0E920F4E040000740E4 /* LoginViewController.swift in Sources */,
 				01CF3BA820EBA7C20026EC7F /* MemesListViewController.swift in Sources */,

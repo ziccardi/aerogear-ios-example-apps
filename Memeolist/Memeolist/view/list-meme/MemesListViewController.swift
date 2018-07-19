@@ -1,5 +1,6 @@
 import UIKit
 import AGSAuth
+import AGSSync
 
 class MemesListViewController: UITableViewController {
 
@@ -27,7 +28,7 @@ class MemesListViewController: UITableViewController {
 
     // MARK: - Data loading
     func loadData() {
-        let watcher = SyncService.instance.client.watch(query: AllMemesQuery()) { result, error in
+        let watcher = AgsSync.instance.client?.watch(query: AllMemesQuery()) { result, error in
             if let error = error {
                 NSLog("Error while fetching query: \(error.localizedDescription)")
                 return
@@ -35,7 +36,7 @@ class MemesListViewController: UITableViewController {
 
             self.memes = result?.data?.memes
         }
-        watcher.refetch()
+        watcher?.refetch()
     }
 
     // MARK: - UITableViewDataSource
