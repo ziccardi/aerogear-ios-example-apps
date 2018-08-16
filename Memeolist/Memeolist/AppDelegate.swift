@@ -1,6 +1,7 @@
 import IQKeyboardManagerSwift
 import UIKit
 import AGSAuth
+import AGSCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,15 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // create the authentication config
         let authenticationConfig = AuthenticationConfig(redirectURL: "memeolist://callback")
         try! AgsAuth.instance.configure(authConfig: authenticationConfig)
+        //AgsCore.instance.getHttp().
         if let user = try! AgsAuth.instance.currentUser() {
             print(user);
         } else {
-            // FIXME disabled login screen for the demo purpose. 
-            // Going to be enabled again
-            // let rootViewController = LoginViewController()
-            // window?.rootViewController = UINavigationController(rootViewController: rootViewController)
-            // window?.makeKeyAndVisible()
-            // return true;
+             let rootViewController = LoginViewController()
+             window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+             window?.makeKeyAndVisible()
+             return true;
         }
         return true
     }
