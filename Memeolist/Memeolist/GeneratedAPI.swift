@@ -2,48 +2,9 @@
 
 import Apollo
 
-public enum _ModelMutationType: RawRepresentable, Equatable, Apollo.JSONDecodable, Apollo.JSONEncodable {
-  public typealias RawValue = String
-  case created
-  case updated
-  case deleted
-  /// Auto generated constant for unknown enum values
-  case __unknown(RawValue)
-
-  public init?(rawValue: RawValue) {
-    switch rawValue {
-      case "CREATED": self = .created
-      case "UPDATED": self = .updated
-      case "DELETED": self = .deleted
-      default: self = .__unknown(rawValue)
-    }
-  }
-
-  public var rawValue: RawValue {
-    switch self {
-      case .created: return "CREATED"
-      case .updated: return "UPDATED"
-      case .deleted: return "DELETED"
-      case .__unknown(let value): return value
-    }
-  }
-
-  public static func == (lhs: _ModelMutationType, rhs: _ModelMutationType) -> Bool {
-    switch (lhs, rhs) {
-      case (.created, .created): return true
-      case (.updated, .updated): return true
-      case (.deleted, .deleted): return true
-      case (.__unknown(let lhsValue), .__unknown(let rhsValue)): return lhsValue == rhsValue
-      default: return false
-    }
-  }
-}
-
 public final class AllMemesQuery: GraphQLQuery {
   public let operationDefinition =
-    "query AllMemes {\n  memes: allMemes {\n    __typename\n    ...MemeDetails\n  }\n}"
-
-  public var queryDocument: String { return operationDefinition.appending(MemeDetails.fragmentDefinition) }
+    "query AllMemes {\n  allMemes {\n    __typename\n    id\n    photourl\n    owner\n    likes\n    comments {\n      __typename\n      id\n      comment\n      owner\n    }\n  }\n}"
 
   public init() {
   }
@@ -52,7 +13,7 @@ public final class AllMemesQuery: GraphQLQuery {
     public static let possibleTypes = ["Query"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("allMemes", alias: "memes", type: .nonNull(.list(.nonNull(.object(Meme.selections))))),
+      GraphQLField("allMemes", type: .nonNull(.list(.nonNull(.object(AllMeme.selections))))),
     ]
 
     public private(set) var resultMap: ResultMap
@@ -61,27 +22,29 @@ public final class AllMemesQuery: GraphQLQuery {
       self.resultMap = unsafeResultMap
     }
 
-    public init(memes: [Meme]) {
-      self.init(unsafeResultMap: ["__typename": "Query", "memes": memes.map { (value: Meme) -> ResultMap in value.resultMap }])
+    public init(allMemes: [AllMeme]) {
+      self.init(unsafeResultMap: ["__typename": "Query", "allMemes": allMemes.map { (value: AllMeme) -> ResultMap in value.resultMap }])
     }
 
-    public var memes: [Meme] {
+    public var allMemes: [AllMeme] {
       get {
-        return (resultMap["memes"] as! [ResultMap]).map { (value: ResultMap) -> Meme in Meme(unsafeResultMap: value) }
+        return (resultMap["allMemes"] as! [ResultMap]).map { (value: ResultMap) -> AllMeme in AllMeme(unsafeResultMap: value) }
       }
       set {
-        resultMap.updateValue(newValue.map { (value: Meme) -> ResultMap in value.resultMap }, forKey: "memes")
+        resultMap.updateValue(newValue.map { (value: AllMeme) -> ResultMap in value.resultMap }, forKey: "allMemes")
       }
     }
 
-    public struct Meme: GraphQLSelectionSet {
+    public struct AllMeme: GraphQLSelectionSet {
       public static let possibleTypes = ["Meme"]
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
-        GraphQLField("photoUrl", type: .nonNull(.scalar(String.self))),
+        GraphQLField("photourl", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
+        GraphQLField("likes", type: .nonNull(.scalar(Int.self))),
+        GraphQLField("comments", type: .nonNull(.list(.nonNull(.object(Comment.selections))))),
       ]
 
       public private(set) var resultMap: ResultMap
@@ -90,8 +53,8 @@ public final class AllMemesQuery: GraphQLQuery {
         self.resultMap = unsafeResultMap
       }
 
-      public init(id: GraphQLID, photoUrl: String) {
-        self.init(unsafeResultMap: ["__typename": "Meme", "id": id, "photoUrl": photoUrl])
+      public init(id: GraphQLID, photourl: String, owner: String? = nil, likes: Int, comments: [Comment]) {
+        self.init(unsafeResultMap: ["__typename": "Meme", "id": id, "photourl": photourl, "owner": owner, "likes": likes, "comments": comments.map { (value: Comment) -> ResultMap in value.resultMap }])
       }
 
       public var __typename: String {
@@ -112,130 +75,50 @@ public final class AllMemesQuery: GraphQLQuery {
         }
       }
 
-      public var photoUrl: String {
+      public var photourl: String {
         get {
-          return resultMap["photoUrl"]! as! String
+          return resultMap["photourl"]! as! String
         }
         set {
-          resultMap.updateValue(newValue, forKey: "photoUrl")
+          resultMap.updateValue(newValue, forKey: "photourl")
         }
       }
 
-      public var fragments: Fragments {
+      public var owner: String? {
         get {
-          return Fragments(unsafeResultMap: resultMap)
+          return resultMap["owner"] as? String
         }
         set {
-          resultMap += newValue.resultMap
+          resultMap.updateValue(newValue, forKey: "owner")
         }
       }
 
-      public struct Fragments {
-        public private(set) var resultMap: ResultMap
-
-        public init(unsafeResultMap: ResultMap) {
-          self.resultMap = unsafeResultMap
-        }
-
-        public var memeDetails: MemeDetails {
-          get {
-            return MemeDetails(unsafeResultMap: resultMap)
-          }
-          set {
-            resultMap += newValue.resultMap
-          }
-        }
-      }
-    }
-  }
-}
-
-public final class CreateMemeSubscription: GraphQLSubscription {
-  public let operationDefinition =
-    "subscription createMeme {\n  Meme(filter: {mutation_in: [CREATED]}) {\n    __typename\n    mutation\n    node {\n      __typename\n      id\n      photoUrl\n    }\n  }\n}"
-
-  public init() {
-  }
-
-  public struct Data: GraphQLSelectionSet {
-    public static let possibleTypes = ["Subscription"]
-
-    public static let selections: [GraphQLSelection] = [
-      GraphQLField("Meme", arguments: ["filter": ["mutation_in": ["CREATED"]]], type: .object(Meme.selections)),
-    ]
-
-    public private(set) var resultMap: ResultMap
-
-    public init(unsafeResultMap: ResultMap) {
-      self.resultMap = unsafeResultMap
-    }
-
-    public init(meme: Meme? = nil) {
-      self.init(unsafeResultMap: ["__typename": "Subscription", "Meme": meme.flatMap { (value: Meme) -> ResultMap in value.resultMap }])
-    }
-
-    public var meme: Meme? {
-      get {
-        return (resultMap["Meme"] as? ResultMap).flatMap { Meme(unsafeResultMap: $0) }
-      }
-      set {
-        resultMap.updateValue(newValue?.resultMap, forKey: "Meme")
-      }
-    }
-
-    public struct Meme: GraphQLSelectionSet {
-      public static let possibleTypes = ["MemeSubscriptionPayload"]
-
-      public static let selections: [GraphQLSelection] = [
-        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("mutation", type: .nonNull(.scalar(_ModelMutationType.self))),
-        GraphQLField("node", type: .object(Node.selections)),
-      ]
-
-      public private(set) var resultMap: ResultMap
-
-      public init(unsafeResultMap: ResultMap) {
-        self.resultMap = unsafeResultMap
-      }
-
-      public init(mutation: _ModelMutationType, node: Node? = nil) {
-        self.init(unsafeResultMap: ["__typename": "MemeSubscriptionPayload", "mutation": mutation, "node": node.flatMap { (value: Node) -> ResultMap in value.resultMap }])
-      }
-
-      public var __typename: String {
+      public var likes: Int {
         get {
-          return resultMap["__typename"]! as! String
+          return resultMap["likes"]! as! Int
         }
         set {
-          resultMap.updateValue(newValue, forKey: "__typename")
+          resultMap.updateValue(newValue, forKey: "likes")
         }
       }
 
-      public var mutation: _ModelMutationType {
+      public var comments: [Comment] {
         get {
-          return resultMap["mutation"]! as! _ModelMutationType
+          return (resultMap["comments"] as! [ResultMap]).map { (value: ResultMap) -> Comment in Comment(unsafeResultMap: value) }
         }
         set {
-          resultMap.updateValue(newValue, forKey: "mutation")
+          resultMap.updateValue(newValue.map { (value: Comment) -> ResultMap in value.resultMap }, forKey: "comments")
         }
       }
 
-      public var node: Node? {
-        get {
-          return (resultMap["node"] as? ResultMap).flatMap { Node(unsafeResultMap: $0) }
-        }
-        set {
-          resultMap.updateValue(newValue?.resultMap, forKey: "node")
-        }
-      }
-
-      public struct Node: GraphQLSelectionSet {
-        public static let possibleTypes = ["Meme"]
+      public struct Comment: GraphQLSelectionSet {
+        public static let possibleTypes = ["Comment"]
 
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
-          GraphQLField("photoUrl", type: .nonNull(.scalar(String.self))),
+          GraphQLField("comment", type: .nonNull(.scalar(String.self))),
+          GraphQLField("owner", type: .nonNull(.scalar(String.self))),
         ]
 
         public private(set) var resultMap: ResultMap
@@ -244,8 +127,8 @@ public final class CreateMemeSubscription: GraphQLSubscription {
           self.resultMap = unsafeResultMap
         }
 
-        public init(id: GraphQLID, photoUrl: String) {
-          self.init(unsafeResultMap: ["__typename": "Meme", "id": id, "photoUrl": photoUrl])
+        public init(id: GraphQLID, comment: String, owner: String) {
+          self.init(unsafeResultMap: ["__typename": "Comment", "id": id, "comment": comment, "owner": owner])
         }
 
         public var __typename: String {
@@ -266,12 +149,21 @@ public final class CreateMemeSubscription: GraphQLSubscription {
           }
         }
 
-        public var photoUrl: String {
+        public var comment: String {
           get {
-            return resultMap["photoUrl"]! as! String
+            return resultMap["comment"]! as! String
           }
           set {
-            resultMap.updateValue(newValue, forKey: "photoUrl")
+            resultMap.updateValue(newValue, forKey: "comment")
+          }
+        }
+
+        public var owner: String {
+          get {
+            return resultMap["owner"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "owner")
           }
         }
       }
@@ -279,25 +171,18 @@ public final class CreateMemeSubscription: GraphQLSubscription {
   }
 }
 
-public final class NewMemeMutation: GraphQLMutation {
+public final class MemeAddedSubscription: GraphQLSubscription {
   public let operationDefinition =
-    "mutation newMeme($url: String!) {\n  createMeme(photoUrl: $url) {\n    __typename\n    id\n    photoUrl\n  }\n}"
+    "subscription memeAdded {\n  memeAdded {\n    __typename\n    id\n    photourl\n    likes\n  }\n}"
 
-  public var url: String
-
-  public init(url: String) {
-    self.url = url
-  }
-
-  public var variables: GraphQLMap? {
-    return ["url": url]
+  public init() {
   }
 
   public struct Data: GraphQLSelectionSet {
-    public static let possibleTypes = ["Mutation"]
+    public static let possibleTypes = ["Subscription"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("createMeme", arguments: ["photoUrl": GraphQLVariable("url")], type: .object(CreateMeme.selections)),
+      GraphQLField("memeAdded", type: .nonNull(.object(MemeAdded.selections))),
     ]
 
     public private(set) var resultMap: ResultMap
@@ -306,26 +191,27 @@ public final class NewMemeMutation: GraphQLMutation {
       self.resultMap = unsafeResultMap
     }
 
-    public init(createMeme: CreateMeme? = nil) {
-      self.init(unsafeResultMap: ["__typename": "Mutation", "createMeme": createMeme.flatMap { (value: CreateMeme) -> ResultMap in value.resultMap }])
+    public init(memeAdded: MemeAdded) {
+      self.init(unsafeResultMap: ["__typename": "Subscription", "memeAdded": memeAdded.resultMap])
     }
 
-    public var createMeme: CreateMeme? {
+    public var memeAdded: MemeAdded {
       get {
-        return (resultMap["createMeme"] as? ResultMap).flatMap { CreateMeme(unsafeResultMap: $0) }
+        return MemeAdded(unsafeResultMap: resultMap["memeAdded"]! as! ResultMap)
       }
       set {
-        resultMap.updateValue(newValue?.resultMap, forKey: "createMeme")
+        resultMap.updateValue(newValue.resultMap, forKey: "memeAdded")
       }
     }
 
-    public struct CreateMeme: GraphQLSelectionSet {
+    public struct MemeAdded: GraphQLSelectionSet {
       public static let possibleTypes = ["Meme"]
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
-        GraphQLField("photoUrl", type: .nonNull(.scalar(String.self))),
+        GraphQLField("photourl", type: .nonNull(.scalar(String.self))),
+        GraphQLField("likes", type: .nonNull(.scalar(Int.self))),
       ]
 
       public private(set) var resultMap: ResultMap
@@ -334,8 +220,8 @@ public final class NewMemeMutation: GraphQLMutation {
         self.resultMap = unsafeResultMap
       }
 
-      public init(id: GraphQLID, photoUrl: String) {
-        self.init(unsafeResultMap: ["__typename": "Meme", "id": id, "photoUrl": photoUrl])
+      public init(id: GraphQLID, photourl: String, likes: Int) {
+        self.init(unsafeResultMap: ["__typename": "Meme", "id": id, "photourl": photourl, "likes": likes])
       }
 
       public var __typename: String {
@@ -356,64 +242,136 @@ public final class NewMemeMutation: GraphQLMutation {
         }
       }
 
-      public var photoUrl: String {
+      public var photourl: String {
         get {
-          return resultMap["photoUrl"]! as! String
+          return resultMap["photourl"]! as! String
         }
         set {
-          resultMap.updateValue(newValue, forKey: "photoUrl")
+          resultMap.updateValue(newValue, forKey: "photourl")
+        }
+      }
+
+      public var likes: Int {
+        get {
+          return resultMap["likes"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "likes")
         }
       }
     }
   }
 }
 
-public struct MemeDetails: GraphQLFragment {
-  public static let fragmentDefinition =
-    "fragment MemeDetails on Meme {\n  __typename\n  id\n  photoUrl\n}"
+public final class CreateMemeMutation: GraphQLMutation {
+  public let operationDefinition =
+    "mutation CreateMeme($ownerid: ID!, $photourl: String!, $owner: String!) {\n  createMeme(ownerid: $ownerid, photourl: $photourl, owner: $owner) {\n    __typename\n    id\n    photourl\n    owner\n    likes\n  }\n}"
 
-  public static let possibleTypes = ["Meme"]
+  public var ownerid: GraphQLID
+  public var photourl: String
+  public var owner: String
 
-  public static let selections: [GraphQLSelection] = [
-    GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-    GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
-    GraphQLField("photoUrl", type: .nonNull(.scalar(String.self))),
-  ]
-
-  public private(set) var resultMap: ResultMap
-
-  public init(unsafeResultMap: ResultMap) {
-    self.resultMap = unsafeResultMap
+  public init(ownerid: GraphQLID, photourl: String, owner: String) {
+    self.ownerid = ownerid
+    self.photourl = photourl
+    self.owner = owner
   }
 
-  public init(id: GraphQLID, photoUrl: String) {
-    self.init(unsafeResultMap: ["__typename": "Meme", "id": id, "photoUrl": photoUrl])
+  public var variables: GraphQLMap? {
+    return ["ownerid": ownerid, "photourl": photourl, "owner": owner]
   }
 
-  public var __typename: String {
-    get {
-      return resultMap["__typename"]! as! String
-    }
-    set {
-      resultMap.updateValue(newValue, forKey: "__typename")
-    }
-  }
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["Mutation"]
 
-  public var id: GraphQLID {
-    get {
-      return resultMap["id"]! as! GraphQLID
-    }
-    set {
-      resultMap.updateValue(newValue, forKey: "id")
-    }
-  }
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("createMeme", arguments: ["ownerid": GraphQLVariable("ownerid"), "photourl": GraphQLVariable("photourl"), "owner": GraphQLVariable("owner")], type: .nonNull(.object(CreateMeme.selections))),
+    ]
 
-  public var photoUrl: String {
-    get {
-      return resultMap["photoUrl"]! as! String
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
     }
-    set {
-      resultMap.updateValue(newValue, forKey: "photoUrl")
+
+    public init(createMeme: CreateMeme) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "createMeme": createMeme.resultMap])
+    }
+
+    public var createMeme: CreateMeme {
+      get {
+        return CreateMeme(unsafeResultMap: resultMap["createMeme"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "createMeme")
+      }
+    }
+
+    public struct CreateMeme: GraphQLSelectionSet {
+      public static let possibleTypes = ["Meme"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("photourl", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
+        GraphQLField("likes", type: .nonNull(.scalar(Int.self))),
+      ]
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(id: GraphQLID, photourl: String, owner: String? = nil, likes: Int) {
+        self.init(unsafeResultMap: ["__typename": "Meme", "id": id, "photourl": photourl, "owner": owner, "likes": likes])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var id: GraphQLID {
+        get {
+          return resultMap["id"]! as! GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var photourl: String {
+        get {
+          return resultMap["photourl"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "photourl")
+        }
+      }
+
+      public var owner: String? {
+        get {
+          return resultMap["owner"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "owner")
+        }
+      }
+
+      public var likes: Int {
+        get {
+          return resultMap["likes"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "likes")
+        }
+      }
     }
   }
 }
