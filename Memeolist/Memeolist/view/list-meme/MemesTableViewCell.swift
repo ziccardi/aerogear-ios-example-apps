@@ -29,7 +29,8 @@ class MemesTableViewCell: UITableViewCell {
                 let alert = UIAlertController(title: "Success", message: "Like submitted!", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
                 uiApp?.present(alert, animated: true)
-                sender.setBackgroundImage(UIImage(named: "favorite"), for: UIControlState.normal)
+                self.disableLikeButton(likeButton: sender)
+
 
             } else {
                 let alert = UIAlertController(title: "Error", message: "Failed to send a like to meme", preferredStyle: UIAlertControllerStyle.alert)
@@ -39,5 +40,10 @@ class MemesTableViewCell: UITableViewCell {
 
             return
         }
+    }
+
+    func disableLikeButton(likeButton: UIButton) {
+        likeButton.setBackgroundImage(UIImage(named: "favorite"), for: UIControlState.normal)
+        likeButton.isUserInteractionEnabled = false;
     }
 }
