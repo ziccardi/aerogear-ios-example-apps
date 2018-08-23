@@ -1,6 +1,6 @@
-import UIKit
 import AGSAuth
 import AGSSync
+import UIKit
 
 class MemesListViewController: UITableViewController {
 
@@ -10,6 +10,7 @@ class MemesListViewController: UITableViewController {
             tableView.reloadData()
         }
     }
+
 
     // MARK: - View lifecycle
 
@@ -27,6 +28,7 @@ class MemesListViewController: UITableViewController {
     }
 
     // MARK: - Data loading
+
     func loadData() {
         let watcher = AgsSync.instance.client?.watch(query: AllMemesQuery()) { result, error in
             if let error = error {
@@ -58,10 +60,10 @@ class MemesListViewController: UITableViewController {
 
         return cell
     }
-    
+
     @IBAction func onLogout(_ sender: Any) {
-         try? AgsAuth.instance.logout(onCompleted: { _ in
+        try? AgsAuth.instance.logout(onCompleted: { _ in
             self.navigationController!.present(UINavigationController(rootViewController: LoginViewController()), animated: true)
-         })
+        })
     }
 }

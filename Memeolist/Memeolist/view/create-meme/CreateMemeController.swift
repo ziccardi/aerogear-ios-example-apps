@@ -1,7 +1,8 @@
+import AGSSync
 import UIImageCropper
 import UIKit
 import AGSSync
-import AGSAuth
+
 
 class CreateMemeController: UIViewController,
     UINavigationControllerDelegate,
@@ -59,7 +60,7 @@ class CreateMemeController: UIViewController,
             if result != nil {
                 let alert = UIAlertController(title: "Success", message: "Meme created", preferredStyle: UIAlertControllerStyle.alert)
                 let action = UIAlertAction(title: "OK", style: .default, handler: {
-                    action in self.navigationController?.popToRootViewController(animated: true);
+                    action in self.navigationController?.popToRootViewController(animated: true)
                 })
                 alert.addAction(action)
                 self.present(alert, animated: true)
@@ -76,7 +77,7 @@ class CreateMemeController: UIViewController,
     }
 
     @IBAction func createMemeAction(_ sender: Any) {
-        if self.topTextEdit.text?.isEmpty ?? false  || self.bottomTextEdit.text?.isEmpty ?? false {
+        if self.topTextEdit.text?.isEmpty ?? false || self.bottomTextEdit.text?.isEmpty ?? false {
             let alert = UIAlertController(title: "Validation error", message: "Missing required fields", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true, completion: nil)
