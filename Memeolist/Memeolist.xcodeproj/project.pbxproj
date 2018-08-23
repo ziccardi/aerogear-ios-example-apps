@@ -20,6 +20,7 @@
 		01CF3BCE20EBC3D80026EC7F /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 01CF3BCC20EBC3D80026EC7F /* schema.json */; };
 		01CF3BD820EBD0D90026EC7F /* MemesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF3BD720EBD0D90026EC7F /* MemesTableViewCell.swift */; };
 		01CF3BE020EBE63F0026EC7F /* GeneratedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF3BDF20EBE63F0026EC7F /* GeneratedAPI.swift */; };
+		1EA7037C212EFA6500BA8473 /* MemesTableViewCell.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 1EA7037B212EFA6500BA8473 /* MemesTableViewCell.graphql */; };
 		41C27A6CE869C9E2E9517155 /* Pods_Memeolist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EB0502C70202F5FE272F97 /* Pods_Memeolist.framework */; };
 		76E45495AEB965518F5E8E27 /* Pods_MemeolistTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 944BD0AFF97A08EC8B3F287D /* Pods_MemeolistTests.framework */; };
 		7A0BA6CF212D94E1003055F0 /* CreateMemeController.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 7A0BA6CE212D94E1003055F0 /* CreateMemeController.graphql */; };
@@ -57,6 +58,7 @@
 		01CF3BDF20EBE63F0026EC7F /* GeneratedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedAPI.swift; sourceTree = "<group>"; };
 		0C1F746F90DEF7248673F78D /* Pods-MemeolistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemeolistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MemeolistTests/Pods-MemeolistTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1B4710A7D563656E8F61DA39 /* Pods-Memeolist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Memeolist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Memeolist/Pods-Memeolist.debug.xcconfig"; sourceTree = "<group>"; };
+		1EA7037B212EFA6500BA8473 /* MemesTableViewCell.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = MemesTableViewCell.graphql; sourceTree = "<group>"; };
 		5E5DC583C41CD2D181C3EA79 /* Pods-MemeolistTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemeolistTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MemeolistTests/Pods-MemeolistTests.release.xcconfig"; sourceTree = "<group>"; };
 		67EB0502C70202F5FE272F97 /* Pods_Memeolist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Memeolist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A0BA6CE212D94E1003055F0 /* CreateMemeController.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CreateMemeController.graphql; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			children = (
 				7A0BA6D0212D94E8003055F0 /* MemesListViewController.graphql */,
 				01CF3BD720EBD0D90026EC7F /* MemesTableViewCell.swift */,
+				1EA7037B212EFA6500BA8473 /* MemesTableViewCell.graphql */,
 				01CF3BA720EBA7C20026EC7F /* MemesListViewController.swift */,
 			);
 			path = "list-meme";
@@ -284,6 +287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EA7037C212EFA6500BA8473 /* MemesTableViewCell.graphql in Resources */,
 				0195B0EA20F4E040000740E4 /* LoginViewController.xib in Resources */,
 				01CF3BCE20EBC3D80026EC7F /* schema.json in Resources */,
 				01CF3BB220EBA7C30026EC7F /* LaunchScreen.storyboard in Resources */,

@@ -1,0 +1,4 @@
+# Like meme
+mutation LikeMeme($memeId: ID!) {
+    likeMeme(id: $memeId)
+}
