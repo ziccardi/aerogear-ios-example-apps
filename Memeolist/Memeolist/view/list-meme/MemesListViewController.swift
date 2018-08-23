@@ -5,7 +5,7 @@ import AGSSync
 class MemesListViewController: UITableViewController {
 
 
-    var memes: [AllMemesQuery.Data.Meme]? {
+    var memes: [AllMemesQuery.Data.AllMeme]? {
         didSet {
             tableView.reloadData()
         }
@@ -34,7 +34,7 @@ class MemesListViewController: UITableViewController {
                 return
             }
 
-            self.memes = result?.data?.memes
+            self.memes = result?.data?.allMemes
         }
         watcher?.refetch()
     }
@@ -54,7 +54,7 @@ class MemesListViewController: UITableViewController {
             fatalError("Could not find post at row \(indexPath.row)")
         }
 
-        cell.configure(with: meme.fragments.memeDetails)
+        cell.configure(with: meme)
 
         return cell
     }

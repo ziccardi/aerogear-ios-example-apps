@@ -1,6 +1,7 @@
 import UIImageCropper
 import UIKit
 import AGSSync
+import AGSAuth
 
 class CreateMemeController: UIViewController,
     UINavigationControllerDelegate,
@@ -51,8 +52,9 @@ class CreateMemeController: UIViewController,
         let url = MemeService.instance.createMemeUrl(imageUrl: rawMemeUrl,
                                                      top: self.topTextEdit.text ?? "",
                                                      bottom: self.bottomTextEdit.text ?? "")
-
-        AgsSync.instance.client?.perform(mutation: NewMemeMutation(url: url)) { result, error in
+        
+        //TODO note owner is still hard-coded, should be changed to real user
+        AgsSync.instance.client?.perform(mutation: CreateMemeMutation(ownerid:"1", photourl: url,owner:"David Duchovny")) { result, error in
             indicator.stopAnimating()
             if result != nil {
                 let alert = UIAlertController(title: "Success", message: "Meme created", preferredStyle: UIAlertControllerStyle.alert)
@@ -68,7 +70,9 @@ class CreateMemeController: UIViewController,
             }
 
             return
+    
         }
+    
     }
 
     @IBAction func createMemeAction(_ sender: Any) {

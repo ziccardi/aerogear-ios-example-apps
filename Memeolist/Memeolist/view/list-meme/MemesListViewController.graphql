@@ -1,25 +1,21 @@
 query AllMemes {
-    memes: allMemes {
-        ...MemeDetails
-    }
-}
-
-fragment MemeDetails on Meme {
+  allMemes {
     id
-    photoUrl
+    photourl
+    owner
+    likes
+    comments {
+      id
+      comment
+      owner
+    }
+  }
 }
 
-
-subscription createMeme {
-  Meme(
-    filter: {
-      mutation_in: [CREATED]
-    }
-  ) {
-    mutation
-    node {
-      id
-      photoUrl
-    }
+subscription memeAdded {
+  memeAdded {
+    id
+    photourl
+    likes
   }
 }

@@ -1,7 +1,9 @@
 ## Creating meme
-mutation newMeme($url: String!) {
-  createMeme(photoUrl: $url) {
+mutation CreateMeme($ownerid: ID!, $photourl: String!, $owner: String!) {
+  createMeme(ownerid: $ownerid, photourl: $photourl, owner: $owner) {
     id
-    photoUrl
+    photourl
+    owner
+    likes
   }
 }
