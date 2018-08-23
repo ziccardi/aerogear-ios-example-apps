@@ -1,6 +1,7 @@
 import Apollo
 import Kingfisher
 import UIKit
+import AGSSync
 
 class MemesTableViewCell: UITableViewCell {
 
@@ -20,13 +21,23 @@ class MemesTableViewCell: UITableViewCell {
         self.selectionStyle = UITableViewCellSelectionStyle.none
     }
 
-    @IBAction func upvote() {
+    @IBAction func upvote(_ sender: UIButton) {
         guard let memeId = memeId else { return }
-        // TODO: implement mutation
-//        apollo.perform(mutation: UpvoteMemeMutation(memeId: memeId)) { (result, error) in
-//            if let error = error {
-//                NSLog("Error while attempting to upvote post: \(error.localizedDescription)")
-//            }
-//        }
+        let uiApp = UIApplication.shared.keyWindow?.rootViewController
+        AgsSync.instance.client?.perform(mutation: LikeMemeMutation(memeId: memeId)) { result, _ in
+            if result != nil {
+                let alert = UIAlertController(title: "Success", message: "Like submitted!", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                uiApp?.present(alert, animated: true)
+                sender.setBackgroundImage(UIImage(named: "favorite"), for: UIControlState.normal)
+
+            } else {
+                let alert = UIAlertController(title: "Error", message: "Failed to send a like to meme", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                uiApp?.present(alert, animated: true)
+            }
+
+            return
+        }
     }
 }
