@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5Wf-gm-MRI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5Wf-gm-MRI">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -53,16 +53,13 @@
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="admin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQt-Ku-J82" userLabel="user">
                                             <rect key="frame" x="76" y="36" width="45.5" height="18"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <accessibilityTraits key="traits" none="YES"/>
+                                            </accessibility>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.80392156862745101" green="0.25098039215686274" blue="0.50588235294117645" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="0.25098039215686274" blue="0.50588235294117645" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_bubble_outline" translatesAutoresizingMaskIntoConstraints="NO" id="22q-01-khm" userLabel="meme">
-                                            <rect key="frame" x="10" y="79.5" width="355" height="355"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="22q-01-khm" secondAttribute="height" multiplier="1:1" id="DW7-gB-wD5"/>
-                                            </constraints>
-                                        </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_bubble_outline" translatesAutoresizingMaskIntoConstraints="NO" id="VFI-aP-PgM" userLabel="comments">
                                             <rect key="frame" x="343" y="444.5" width="24" height="24"/>
                                             <color key="tintColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
@@ -103,6 +100,12 @@
                                                 <constraint firstAttribute="width" constant="20" id="ipF-nJ-v4k"/>
                                             </constraints>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="chat_bubble_outline" translatesAutoresizingMaskIntoConstraints="NO" id="22q-01-khm" userLabel="meme">
+                                            <rect key="frame" x="10" y="77" width="355" height="355"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="22q-01-khm" secondAttribute="height" multiplier="1:1" id="DW7-gB-wD5"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="NeK-mF-YeS" firstAttribute="leading" secondItem="ZQ5-W3-b26" secondAttribute="leadingMargin" id="1Ga-Az-PL4"/>
@@ -136,8 +139,10 @@
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" red="0.46202266219999999" green="0.83828371759999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
+                                    <outlet property="avatarImageView" destination="NeK-mF-YeS" id="CLl-0R-NDK"/>
                                     <outlet property="likesLabel" destination="nve-BR-GbC" id="Tzh-Mx-VyV"/>
                                     <outlet property="memeImageView" destination="22q-01-khm" id="8h5-Fk-20p"/>
+                                    <outlet property="userLabel" destination="dQt-Ku-J82" id="7ns-O6-1lb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

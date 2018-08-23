@@ -8,12 +8,15 @@ class MemesTableViewCell: UITableViewCell {
 
     @IBOutlet var likesLabel: UILabel!
     @IBOutlet var memeImageView: UIImageView!
+    @IBOutlet var userLabel:UILabel!
+    @IBOutlet var avatarImageView:UIImageView!
 
     func configure(with meme: AllMemesQuery.Data.AllMeme) {
         memeId = meme.id
         let url = URL(string: meme.photourl)
         memeImageView.kf.setImage(with: url, placeholder: UIImage(named: "loading"))
-        likesLabel?.text = "0 likes" //"\(meme.votes ?? 0) likes"
+        likesLabel?.text = "\(meme.likes) likes"
+        userLabel?.text = meme.owner
         self.selectionStyle = UITableViewCellSelectionStyle.none
     }
 
