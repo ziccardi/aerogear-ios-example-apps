@@ -6,14 +6,19 @@ target 'Memeolist' do
   use_frameworks!
 
   # Pods for Memeolist
-  pod "Apollo"
-  pod "Kingfisher"
+  pod "Apollo", '~> 0.9'
+  pod "Kingfisher" 
   pod "Alamofire"
   
-  ## SDK pods from development
-  pod 'AGSAuth', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
-  pod 'AGSSync', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
-
+  if ENV['LOCAL_DIR']
+      pod 'AGSCore', :path => ENV['LOCAL_DIR']
+      pod 'AGSAuth', :path => ENV['LOCAL_DIR']
+      pod 'AGSSync', :path => ENV['LOCAL_DIR']
+  else
+      pod 'AGSAuth', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
+      pod 'AGSSync', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
+  end
+  
   ## Helpers
   pod 'UIImageCropper'
   pod 'IQKeyboardManagerSwift'
