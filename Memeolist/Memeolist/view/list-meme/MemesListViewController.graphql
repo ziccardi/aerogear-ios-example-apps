@@ -1,21 +1,21 @@
 query AllMemes {
-allMemes {
-id
-photourl
-owner
-likes
-comments {
-id
-comment
-owner
-}
-}
+  allMemes {
+    id
+    photourl
+    owner
+    likes
+    comments {
+      id
+      comment
+      owner
+    }
+  }
 }
 
 subscription memeAdded {
-memeAdded {
-id
-photourl
-likes
-}
+  memeAdded {
+    id
+    photourl
+    likes
+  }
 }

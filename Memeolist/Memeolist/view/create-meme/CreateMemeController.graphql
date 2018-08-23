@@ -1,9 +1,9 @@
 ## Creating meme
 mutation CreateMeme($ownerid: ID!, $photourl: String!, $owner: String!) {
-createMeme(ownerid: $ownerid, photourl: $photourl, owner: $owner) {
-id
-photourl
-owner
-likes
-}
+  createMeme(ownerid: $ownerid, photourl: $photourl, owner: $owner) {
+    id
+    photourl
+    owner
+    likes
+  }
 }

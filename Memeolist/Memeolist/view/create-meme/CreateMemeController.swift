@@ -53,8 +53,8 @@ class CreateMemeController: UIViewController,
                                                      top: self.topTextEdit.text ?? "",
                                                      bottom: self.bottomTextEdit.text ?? "")
         
-        
-        AgsSync.instance.client?.perform(mutation: CreateMemeMutation(ownerid:"1", photourl: url,owner:"???")) { result, error in
+        //TODO note owner is still hard-coded, should be changed to real user
+        AgsSync.instance.client?.perform(mutation: CreateMemeMutation(ownerid:"1", photourl: url,owner:"David Duchovny")) { result, error in
             indicator.stopAnimating()
             if result != nil {
                 let alert = UIAlertController(title: "Success", message: "Meme created", preferredStyle: UIAlertControllerStyle.alert)
