@@ -4,29 +4,6 @@ import Alamofire
 import IQKeyboardManagerSwift
 import UIKit
 
-class AuthHeaderProvider: HeaderProvider {
-
-    static let HEADER_TYPE = "Bearer "
-    static let HEADER_KEY = "Authorization"
-
-    let auth: AgsAuth
-
-    init(_ auth: AgsAuth) {
-        self.auth = auth
-    }
-
-    func getHeaders() -> [String: String] {
-        do {
-            let currentUser = try self.auth.currentUser()
-            if let token = currentUser?.accessToken {
-                return [AuthHeaderProvider.HEADER_KEY: AuthHeaderProvider.HEADER_TYPE + token]
-            }
-        } catch {
-            // Intentionally empty when user is not logged in or auth is not enabled
-        }
-        return [:]
-    }
-}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -40,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authenticationConfig = AuthenticationConfig(redirectURL: "memeolist://callback")
         try! AgsAuth.instance.configure(authConfig: authenticationConfig)
         if let transport = AgsSync.instance.transport {
-            transport.headerProvider = AuthHeaderProvider(AgsAuth.instance)
+            transport.headerProvider = AgsAuth.instance.getAuthHeaderProvider()
         }
         if let user = try! AgsAuth.instance.currentUser() {
             print(user)
