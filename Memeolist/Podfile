@@ -15,6 +15,7 @@ target 'Memeolist' do
       pod 'AGSAuth', :path => ENV['LOCAL_DIR']
       pod 'AGSSync', :path => ENV['LOCAL_DIR']
   else
+      pod 'AGSCore', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
       pod 'AGSAuth', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
       pod 'AGSSync', :git => 'https://github.com/aerogear/aerogear-ios-sdk'
   end
