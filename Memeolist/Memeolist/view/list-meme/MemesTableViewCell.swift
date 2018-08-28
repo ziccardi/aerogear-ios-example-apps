@@ -13,7 +13,7 @@ class MemesTableViewCell: UITableViewCell {
     @IBOutlet var userLabel:UILabel!
     @IBOutlet var avatarImageView:UIImageView!
 
-    func configure(with meme: AllMemesQuery.Data.AllMeme) {
+    func configure(with meme: MemeDetails) {
         memeId = meme.id
         memeNumberOfLikes = meme.likes
         let url = URL(string: meme.photourl)

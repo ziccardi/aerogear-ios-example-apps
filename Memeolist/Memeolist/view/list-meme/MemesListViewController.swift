@@ -4,13 +4,7 @@ import UIKit
 
 class MemesListViewController: UITableViewController {
 
-
-    var memes: [AllMemesQuery.Data.AllMeme]? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-
+    var memes: [MemeDetails?] = []
 
     // MARK: - View lifecycle
 
@@ -30,21 +24,42 @@ class MemesListViewController: UITableViewController {
     // MARK: - Data loading
 
     func loadData() {
-        let watcher = AgsSync.instance.client?.watch(query: AllMemesQuery()) { result, error in
+       AgsSync.instance.client?.fetch(query: AllMemesQuery()) { result, error in
             if let error = error {
                 NSLog("Error while fetching query: \(error.localizedDescription)")
+                let alert = UIAlertController(title: "Error", message: "Failed to fetch meme updates", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.navigationController?.present(alert, animated: true)
                 return
             }
-
-            self.memes = result?.data?.allMemes
+            if let allMemes = result?.data?.allMemes {
+                self.memes = [];
+                for meme in allMemes {
+                    self.memes.append(meme.fragments.memeDetails);
+                }
+            }
+            self.tableView.reloadData()
         }
-        watcher?.refetch()
+        
+        AgsSync.instance.client?.subscribe(subscription: MemeAddedSubscription(), resultHandler:  { result, error in
+            if let error = error {
+                NSLog("Error while fetching query: \(error.localizedDescription)")
+                let alert = UIAlertController(title: "Error", message: "Failed to subscribe to meme updates", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.navigationController?.present(alert, animated: true)
+                return
+            }
+            if let memeDetails = result?.data?.memeAdded.fragments.memeDetails {
+                self.memes.append(memeDetails)
+            }
+             self.tableView.reloadData()
+        })
     }
 
     // MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memes?.count ?? 0
+        return memes.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,7 +67,7 @@ class MemesListViewController: UITableViewController {
             fatalError("Could not dequeue PostTableViewCell")
         }
 
-        guard let meme = memes?[indexPath.row] else {
+        guard let meme = memes[indexPath.row] else {
             fatalError("Could not find post at row \(indexPath.row)")
         }
 
