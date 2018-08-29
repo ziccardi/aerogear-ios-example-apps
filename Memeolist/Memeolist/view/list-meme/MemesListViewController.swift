@@ -66,4 +66,14 @@ class MemesListViewController: UITableViewController {
             self.navigationController!.present(UINavigationController(rootViewController: LoginViewController()), animated: true)
         })
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "CommentsSegue") {
+            if let button = sender as? UIButton, let cell = button.superview?.superview as? MemesTableViewCell {
+                let destination = segue.destination as? CommentsViewController
+                destination?.meme = memes?.first(where: { $0.id == cell.memeId })
+            }
+        }
+    }
+    
 }

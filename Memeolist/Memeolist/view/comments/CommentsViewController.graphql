@@ -1,0 +1,8 @@
+## Posting comment
+mutation postComment($memeid: ID!, $comment: String!, $owner: String!){
+    postComment(memeid: $memeid, comment: $comment, owner: $owner){
+        id
+        comment
+        owner
+    }
+}
