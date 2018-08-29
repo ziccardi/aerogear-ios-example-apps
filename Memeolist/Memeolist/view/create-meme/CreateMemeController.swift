@@ -1,7 +1,6 @@
 import AGSSync
 import UIImageCropper
 import UIKit
-import AGSSync
 
 
 class CreateMemeController: UIViewController,
