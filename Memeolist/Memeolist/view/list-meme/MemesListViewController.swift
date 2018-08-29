@@ -5,26 +5,31 @@ import UIKit
 class MemesListViewController: UITableViewController {
 
     var memes: [MemeDetails?] = []
-
+    let refreshControler = UIRefreshControl()
     // MARK: - View lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        refreshControler.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControler.addTarget(self, action: #selector(loadData), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControler) // not required when using UITableViewController
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 64
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+       
+        
         loadData()
     }
 
     // MARK: - Data loading
 
-    func loadData() {
-       AgsSync.instance.client?.fetch(query: AllMemesQuery()) { result, error in
+    @objc func loadData() {
+       refreshControler.endRefreshing()
+        AgsSync.instance.client?.fetch(query: AllMemesQuery(), cachePolicy: .fetchIgnoringCacheData) { result, error in
             if let error = error {
                 NSLog("Error while fetching query: \(error.localizedDescription)")
                 let alert = UIAlertController(title: "Error", message: "Failed to fetch meme updates", preferredStyle: UIAlertControllerStyle.alert)
@@ -49,11 +54,14 @@ class MemesListViewController: UITableViewController {
                 self.navigationController?.present(alert, animated: true)
                 return
             }
-            if let memeDetails = result?.data?.memeAdded.fragments.memeDetails {
-                self.memes.append(memeDetails)
+            
+            if let memeDetails = result?.data?.memeAdded {
+                self.memes.append( MemeDetails(id: memeDetails.id, photourl: memeDetails.photourl, likes: memeDetails.likes, comments: []))
             }
-             self.tableView.reloadData()
+            self.tableView.reloadData()
         })
+
+
     }
 
     // MARK: - UITableViewDataSource
