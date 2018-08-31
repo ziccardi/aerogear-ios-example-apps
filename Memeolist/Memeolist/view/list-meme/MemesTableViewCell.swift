@@ -19,22 +19,19 @@ class MemesTableViewCell: UITableViewCell {
         let url = URL(string: meme.photourl)
         memeImageView.kf.setImage(with: url, placeholder: UIImage(named: "loading"))
         likesLabel?.text = "\(memeNumberOfLikes) likes"
-        userLabel?.text = meme.owner
+        userLabel?.text = meme.owner[0].displayname
         self.selectionStyle = UITableViewCellSelectionStyle.none
     }
 
     @IBAction func upvote(_ sender: UIButton) {
         guard let memeId = memeId else { return }
-        let uiApp = UIApplication.shared.keyWindow?.rootViewController
-        AgsSync.instance.client?.perform(mutation: LikeMemeMutation(memeId: memeId)) { result, _ in
-            if result != nil {
+        AgsSync.instance.client?.perform(mutation: LikeMemeMutation(memeId: memeId)) { result, error in
+            if let err = result?.errors {
+                print("Error:", err)
+            } else {
                 self.memeNumberOfLikes += 1
                 self.likesLabel?.text = "\(self.memeNumberOfLikes) likes"
                 sender.setBackgroundImage(UIImage(named: "favorite"), for: UIControlState.normal)
-            } else {
-                let alert = UIAlertController(title: "Error", message: "Failed to send a like to meme", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                uiApp?.present(alert, animated: true)
             }
             return
         }

@@ -19,7 +19,7 @@ class CommentsViewController: UIViewController {
     }
     
     @IBAction func addButtonClicked(_ sender: Any) {
-        guard let id = meme?.id, let owner = meme?.owner else { return }
+        guard let id = meme?.id, let owner = meme?.owner[0].id else { return }
         
         AgsSync.instance.client?.perform(mutation: PostCommentMutation(memeid: id, comment: commentTextView.text, owner: owner)) { result, error in
             if let comment = result?.data?.postComment {
