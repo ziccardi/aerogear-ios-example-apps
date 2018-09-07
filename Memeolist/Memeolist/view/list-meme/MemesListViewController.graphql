@@ -1,24 +1,23 @@
 query AllMemes {
   allMemes {
-    id
-    photourl
-    owner {
-      id
-      displayname
-    }
-    likes
-    comments {
-      id
-      comment
-      owner
-    }
+    ...MemeDetails
   }
+}
+
+fragment MemeDetails on Meme {
+   id
+   photourl
+   owner
+   likes
+   comments {
+     id
+     comment
+     owner
+   }
 }
 
 subscription memeAdded {
   memeAdded {
-    id
-    photourl
-    likes
+    ...MemeDetails
   }
 }

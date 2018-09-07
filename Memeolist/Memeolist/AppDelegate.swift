@@ -19,9 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let transport = AgsSync.instance.transport {
             transport.headerProvider = AgsAuth.instance.getAuthHeaderProvider()
         }
-        if let user = try! AgsAuth.instance.currentUser() {
-            print(user)
-        } else {
+        guard let _ = try! AgsAuth.instance.currentUser() else {
             let rootViewController = LoginViewController()
             window?.rootViewController = UINavigationController(rootViewController: rootViewController)
             window?.makeKeyAndVisible()

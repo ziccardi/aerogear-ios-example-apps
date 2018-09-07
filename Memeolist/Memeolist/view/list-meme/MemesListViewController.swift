@@ -4,47 +4,70 @@ import UIKit
 
 class MemesListViewController: UITableViewController {
 
-
-    var memes: [AllMemesQuery.Data.AllMeme]? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-
-
+    var memes: [MemeDetails?] = []
+    let refreshControler = UIRefreshControl()
     // MARK: - View lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        refreshControler.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControler.addTarget(self, action: #selector(loadData), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControler) // not required when using UITableViewController
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 64
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+       
+        
         loadData()
     }
 
     // MARK: - Data loading
 
-    func loadData() {
-        let watcher = AgsSync.instance.client?.watch(query: AllMemesQuery()) { result, error in
+    @objc func loadData() {
+       refreshControler.endRefreshing()
+        AgsSync.instance.client?.fetch(query: AllMemesQuery(), cachePolicy: .fetchIgnoringCacheData) { result, error in
             if let error = error {
                 NSLog("Error while fetching query: \(error.localizedDescription)")
+                let alert = UIAlertController(title: "Error", message: "Failed to fetch meme updates", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.navigationController?.present(alert, animated: true)
                 return
             }
-
-            self.memes = result?.data?.allMemes
+            if let allMemes = result?.data?.allMemes {
+                self.memes = [];
+                for meme in allMemes {
+                    self.memes.append(meme.fragments.memeDetails);
+                }
+            }
+            self.tableView.reloadData()
         }
-        watcher?.refetch()
+        
+        AgsSync.instance.client?.subscribe(subscription: MemeAddedSubscription(), resultHandler:  { result, error in
+            if let error = error {
+                NSLog("Error while fetching query: \(error.localizedDescription)")
+                let alert = UIAlertController(title: "Error", message: "Failed to subscribe to meme updates", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.navigationController?.present(alert, animated: true)
+                return
+            }
+            
+            if let memeDetails = result?.data?.memeAdded {
+                self.memes.append( MemeDetails(id: memeDetails.id, photourl: memeDetails.photourl, likes: memeDetails.likes, comments: []))
+            }
+            self.tableView.reloadData()
+        })
+
+
     }
 
     // MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memes?.count ?? 0
+        return memes.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,7 +75,7 @@ class MemesListViewController: UITableViewController {
             fatalError("Could not dequeue PostTableViewCell")
         }
 
-        guard let meme = memes?[indexPath.row] else {
+        guard let meme = memes[indexPath.row] else {
             fatalError("Could not find post at row \(indexPath.row)")
         }
 
